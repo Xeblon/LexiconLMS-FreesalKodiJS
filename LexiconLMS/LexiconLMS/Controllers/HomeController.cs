@@ -8,11 +8,13 @@ namespace LexiconLMS.Controllers
 {
     public class HomeController : Controller
     {
+        
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles="courseadmin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
