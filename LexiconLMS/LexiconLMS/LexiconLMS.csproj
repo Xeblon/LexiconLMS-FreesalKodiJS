@@ -160,6 +160,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LMSController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -226,6 +227,15 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\LMS\Index.cshtml" />
+    <Content Include="Views\LMS\Course.cshtml" />
+    <Content Include="Views\LMS\Student.cshtml" />
+    <Content Include="Views\LMS\Courses.cshtml" />
+    <Content Include="Views\LMS\AdminPage.cshtml" />
+    <Content Include="Views\LMS\Handedin.cshtml" />
+    <Content Include="Views\LMS\Schedual.cshtml" />
+    <Content Include="Views\LMS\SharedFiles.cshtml" />
+    <Content Include="Views\LMS\Assignments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
