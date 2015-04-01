@@ -11,39 +11,9 @@
 <div class="row">
     <div class="col-md-4">
         <h2>Getting started</h2>
+        
         <p>
-            <!-- Creating Roles in the database:
-            In Migrations, Configuration.cs (when it has been created) look up the Seed method and add:
-            SeedMembership();
-
-            private void SeedMembership()
-            {
-                WebSecurity.InitializeDatabaseConnection("DefaultConnection","UserProfile", "UserId", "UserName", autoCreateTables: true);
-                
-                var roles = (SimpleRoleProvider)Roles.Provider;
-               // var membership = (SimpleMembershipProvider)Membership.Provider;
-            }
-
-            (Add the namespaces: using WebMatrix.WebData; using System.Web.Security;)
-
-            Run Update-Database
-            If this gives an error, add the following code to Web.config just above the closing tag of system.web
-            -->
-            <!--<roleManager enabled="true" defaultprovider="simple">
-                <providers>
-                    <clear/>
-                    <add name="simple" type="WebMatrix.WebData.SimpleRoleProvider, WebMatrix.WebData"/>
-                </providers>
-            </roleManager>
-            <membership defaultProvider="simple">
-                <providers>
-                    <clear/>
-                    <add name="simple" type="WebMatrix.WebData.SimpleMembershipProvider, WebMatrix.WebData" />
-                </providers>
-            </membership>-->
-        </p>
-        <p>
-            @if (User.IsInRole("courseadmin"))
+            @if (User.IsInRole("admin"))
             {
                 <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
             }
