@@ -14,7 +14,7 @@ namespace LexiconLMS.Controllers
             return View();
         }
 
-        [Authorize(Roles="courseadmin")]
+        [Authorize(Roles="admin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -28,5 +28,11 @@ namespace LexiconLMS.Controllers
 
             return View();
         }
+        
+        public ActionResult CreateUserPrel()
+        {
+            return View();
+        }
+
     }
 }
