@@ -13,10 +13,8 @@ namespace LexiconLMS.Models
     {
         public string FName { get; set; }
         public string LName { get; set; }
-        public int GroupId { get; set; }
-        [ForeignKey("GroupId")]
-        public virtual Group groups { get; set; }
-        public virtual ICollection<File> Files { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<Files> Files { get; set; }
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -33,6 +31,34 @@ namespace LexiconLMS.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<ApplicationUser>()
+                        .HasMany(u => u.Groups)
+                        .WithMany(g => g.Users)
+                        .Map(ug =>
+                            {
+                                ug.MapLeftKey("UserId");
+                                ug.MapRightKey("GroupId");
+                                ug.ToTable("UserGroups");
+                            });
+
+             modelBuilder.Entity<Group>()
+            .HasKey(g => g.ScheduleId);
+
+             modelBuilder.Entity<Schedule>()
+                         .HasOptional(s => s.groups)
+                         .WithRequired(g => g.schedules);
+
+             modelBuilder.Entity<Files>()
+                          .HasRequired(f => f.Users)
+                          .WithMany(s => s.Files)
+                          .HasForeignKey(f => f.UserId);
+                       
         }
 
         public static ApplicationDbContext Create()

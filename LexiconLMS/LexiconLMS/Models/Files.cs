@@ -7,7 +7,7 @@ using System.Web;
 
 namespace LexiconLMS.Models
 {
-    public class File
+    public class Files
     {
         [Key]
         public int Id { get; set; }
