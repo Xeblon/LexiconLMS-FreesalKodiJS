@@ -9,11 +9,14 @@ namespace LexiconLMS.Models
 {
     public class Schedule
     {
-     //   [Key,ForeignKey ("Group")]
+       // [Key, ForeignKey("Group")]
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual Group groups { get; set; }
+        //public int GroupId { get; set; }
+        //[ForeignKey("GroupId")]
+        //public virtual Group Groups { get; set; }
         //public virtual ICollection<Group> Groups { get; set; }
     }
 }
+

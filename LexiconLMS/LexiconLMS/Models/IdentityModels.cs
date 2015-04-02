@@ -34,33 +34,29 @@ namespace LexiconLMS.Models
 
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
 
-            modelBuilder.Entity<ApplicationUser>()
-                        .HasMany(u => u.Groups)
-                        .WithMany(g => g.Users)
-                        .Map(ug =>
-                            {
-                                ug.MapLeftKey("UserId");
-                                ug.MapRightKey("GroupId");
-                                ug.ToTable("UserGroups");
-                            });
+        //    modelBuilder.Entity<ApplicationUser>()
+        //                .HasMany(u => u.Groups)
+        //                .WithMany(g => g.Users)
+        //                .Map(ug =>
+        //                    {
+        //                        ug.MapLeftKey("UserId");
+        //                        ug.MapRightKey("GroupId");
+        //                        ug.ToTable("UserGroups");
+        //                    });
 
-             modelBuilder.Entity<Group>()
-            .HasKey(g => g.ScheduleId);
-
-             modelBuilder.Entity<Schedule>()
-                         .HasOptional(s => s.groups)
-                         .WithRequired(g => g.schedules);
-
-             modelBuilder.Entity<Files>()
-                          .HasRequired(f => f.Users)
-                          .WithMany(s => s.Files)
-                          .HasForeignKey(f => f.UserId);
+        //     modelBuilder.Entity<Files>()
+        //                  .HasRequired(f => f.Users)
+        //                  .WithMany(s => s.Files)
+        //                  .HasForeignKey(f => f.UserId);
                        
-        }
+        //}
 
+        public System.Data.Entity.DbSet<LexiconLMS.Models.Group> Groups { get; set; }
+        public System.Data.Entity.DbSet<LexiconLMS.Models.Schedule> Schedules { get; set; }
+        public System.Data.Entity.DbSet<LexiconLMS.Models.Files> Files { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
