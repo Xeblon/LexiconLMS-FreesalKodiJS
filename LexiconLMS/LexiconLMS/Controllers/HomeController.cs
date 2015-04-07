@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Html;
 
 namespace LexiconLMS.Controllers
 {
@@ -15,7 +14,7 @@ namespace LexiconLMS.Controllers
             return View();
         }
 
-        [Authorize(Roles="courseadmin")]
+        [Authorize(Roles="admin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -29,5 +28,11 @@ namespace LexiconLMS.Controllers
 
             return View();
         }
+        
+        public ActionResult CreateUserPrel()
+        {
+            return View();
+        }
+
     }
 }
