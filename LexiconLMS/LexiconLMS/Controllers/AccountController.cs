@@ -7,12 +7,15 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using LexiconLMS.Models;
 
 namespace LexiconLMS.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "admin")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -75,7 +78,7 @@ namespace LexiconLMS.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.userName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -136,7 +139,6 @@ namespace LexiconLMS.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -145,16 +147,25 @@ namespace LexiconLMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+                var userManager = new UserManager<ApplicationUser>(store);
+
+                var userName = model.FName + model.LName;
+                var user = new ApplicationUser { UserName = userName, FName = model.FName, LName = model.LName, Email = model.Email};
+                var role = model.addUserRole;
+
+                var result = await UserManager.CreateAsync(user, "Password-123");
                 if (result.Succeeded)
                 {
+                    if ( role == true )
+                    {
+                        userManager.AddToRole(user.Id, "admin");
+                    }
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

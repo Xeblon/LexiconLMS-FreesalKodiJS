@@ -4,29 +4,41 @@ namespace LexiconLMS.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using LexiconLMS.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<LexiconLMS.Models.ApplicationDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "LexiconLMS.Models.ApplicationDbContext";
         }
 
         protected override void Seed(LexiconLMS.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            var roleStore = new RoleStore<IdentityRole>(context);
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            if (!roleManager.RoleExists("admin"))
+            {
+                var role = new IdentityRole();
+                role.Name = "admin";
+                roleManager.Create(role);
+            }
+            context.SaveChanges();
+
+            if (!context.Users.Any(u => u.UserName == "GodAllmighty"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "GodAllmighty", FName = "God", LName = "Allmighty", Email = "god@heaven.com" };
+
+                userManager.Create(user, "Password-123");
+                userManager.AddToRole(user.Id, "admin");
+            }
+            context.SaveChanges();
         }
     }
 }
