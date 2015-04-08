@@ -8,11 +8,13 @@ namespace LexiconLMS.Controllers
 {
     public class HomeController : Controller
     {
+        
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles="admin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -26,5 +28,11 @@ namespace LexiconLMS.Controllers
 
             return View();
         }
+        
+        public ActionResult CreateUserPrel()
+        {
+            return View();
+        }
+
     }
 }
