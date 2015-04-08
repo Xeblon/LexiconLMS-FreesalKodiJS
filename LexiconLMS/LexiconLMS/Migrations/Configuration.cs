@@ -18,6 +18,7 @@ namespace LexiconLMS.Migrations
 
         protected override void Seed(LexiconLMS.Models.ApplicationDbContext context)
         {
+            // CREATE THE ROLE OF ADMIN
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
 
@@ -29,6 +30,7 @@ namespace LexiconLMS.Migrations
             }
             context.SaveChanges();
 
+            // CREATE THE INITIAL USER
             if (!context.Users.Any(u => u.UserName == "GodAllmighty"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -38,6 +40,12 @@ namespace LexiconLMS.Migrations
                 userManager.Create(user, "Password-123");
                 userManager.AddToRole(user.Id, "admin");
             }
+            context.SaveChanges();
+
+            // CREATE DEFAULT EMPTY SCHEDULE
+            context.Schedules.AddOrUpdate(
+                new Schedule { Id = 0, Name = "Empty Schedule" }
+            );
             context.SaveChanges();
         }
     }

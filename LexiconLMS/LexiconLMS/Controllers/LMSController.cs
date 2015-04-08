@@ -17,6 +17,13 @@ namespace LexiconLMS.Controllers
         // GET: LMS
         public ActionResult Index()
         {
+            var groups = db.Groups.ToList();
+            return View(groups);
+        }
+
+        // CREATE GOUP PAGE
+        public ActionResult CreateGroup()
+        {
             return View();
         }
 
@@ -179,6 +186,7 @@ namespace LexiconLMS.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }
 

@@ -1,0 +1,23 @@
+﻿@using LexiconLMS.Helpers
+@if (!User.IsInRole("admin"))
+{
+    <div class="mainNav navbar navbar-fixed-top">
+        <div class="container">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ListItemAction("Home", "Index", "LMS")</li>
+                    <li>@Html.ListItemAction("Create Group", "Create", "Groups")</li>
+                    <li>@Html.ListItemAction("Create User", "Register", "Account")</li>
+                    <li>@Html.ListItemAction("Upload Files", "UploadFiles", "LMS")</li>
+                </ul><!-- .nav .navbar-nav -->
+            </div><!-- .navbar-collapse .collapse -->
+        </div><!-- .container-->
+    </div><!-- .mainNav -->
+}
+    
+    
