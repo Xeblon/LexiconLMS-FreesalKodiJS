@@ -39,6 +39,11 @@ namespace LexiconLMS.Migrations
                 userManager.AddToRole(user.Id, "admin");
             }
             context.SaveChanges();
+
+            context.Schedules.AddOrUpdate(
+                new Schedule { Id = 0, Name = "Empty Schedual" }
+            );
+            
         }
     }
 }

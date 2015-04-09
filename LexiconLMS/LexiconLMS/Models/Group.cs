@@ -13,7 +13,7 @@ namespace LexiconLMS.Models
         [Key]
         public int Id { get; set; }
         public string GroupName { get; set; }
-      public int ScheduleId { get; set; }
+        public int ScheduleId { get; set; }
         [ForeignKey("ScheduleId")]
         public virtual Schedule schedule { get; set; }
 
