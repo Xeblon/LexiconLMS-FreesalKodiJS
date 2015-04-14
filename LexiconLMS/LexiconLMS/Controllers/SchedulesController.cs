@@ -14,6 +14,7 @@ namespace LexiconLMS.Controllers
     public class SchedulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        List<scheduleViewModel> scheduleVM = new List<scheduleViewModel>();
 
         // GET: Schedules
         public ActionResult Index()
@@ -34,31 +35,33 @@ namespace LexiconLMS.Controllers
                 return HttpNotFound();
             }
 
-            // VIEW MODEL
-            List<scheduleViewModel> scheduleVM = new List<scheduleViewModel>();
+            AddDays();
 
+            return View(scheduleVM);        
+        }
+
+        // ADD DAYS TO VIEWMODEL
+        public void AddDays()
+        {
+            // VIEW MODEL
+            
             var eventSchedule = db.Events.Include(s => s.Schedules);
-                
+
             foreach (Event events in eventSchedule)
             {
-                scheduleVM.Add(
+                scheduleVM
+                    .Add(
                     new Models.ViewModels.scheduleViewModel
                     {
                         ScheduleName = events.Schedules.Name,
                         ScheduleId = events.Schedules.Id,
+                        EventId = events.Id,
                         EventName = events.Name,
                         EventSummary = events.Summary,
                         EventDate = events.Date,
                         EventTime = events.Time
-                    }
-                );
-                // I WANT TO GROUP THE EVENTS BY DATE SO THAT SEVERAL EVENTS CAN FORM A DAY. I AM NOT SURE WHETHER THIS SHOULD BE DONE WITH GROUPBY OR A SECOND VIEWMODEL...
-                //var scheduleDay = scheduleVM.GroupBy(d => d.EventDate, d => d.EventName,
-                //                (key, x) => new { EventDate = key, Events = x.ToList()});
-                //return View(scheduleDay);
+                    });
             }
-
-            return View(scheduleVM);
         }
 
         // GET: Schedules/Create

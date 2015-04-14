@@ -105,3 +105,16 @@ a.navbar-brand {
     background:#d60000;
 
 }
+
+/* ==== SCHEDULE ==== */
+.scheduleDay{
+    width:13.8%;
+    border:solid 1px #eaeaea;
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    padding:10px;
+}
+.currentDay{
+    border:solid 1px #d60000;
+}

@@ -2,30 +2,163 @@
 
 @{
     ViewBag.Title = "Details";
+    var scheduleDay = Model
+                .GroupBy(item => item.EventDate)
+                .Select((x, i) => new { Index = i, Value = x})
+                .ToList();
+    DateTime currentDate = DateTime.Now.Date;
 }
 
-@*<h2>Schedual: @Html.DisplayFor(model => model.)</h2>*@
 <h3>This will show the complete schedule or the current week/day </h3>
 
-<div>
-    <table class="table">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.EventName)</th>
-            <th>@Html.DisplayNameFor(model => model.EventSummary)</th>
-            <th>@Html.DisplayNameFor(model => model.EventDate)</th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.EventName)</td>
-                <td>@Html.DisplayFor(modelItem => item.EventSummary)</td>
-                <td>@Html.DisplayFor(modelItem => item.EventDate)</td>
-            </tr>
-        }
+<div class="">
+    <div class="scheduleWeek">
 
-    </table>
+        @foreach (var item in scheduleDay)
+        {
+            var todayIndex = item.Index;
+            var yesterdayIndex = item.Index - 1;
+            var Today = scheduleDay[todayIndex].Value.Key.DayOfYear;
+
+            if (todayIndex != 0)
+            {
+                var Yesterday = scheduleDay[yesterdayIndex].Value.Key.DayOfYear;
+                    
+                if (Today - Yesterday == 1)
+                {
+                    <div class="scheduleDay">
+                    <h4>@Html.DisplayFor(modelItem => item.Value.Key.DayOfWeek)</h4>
+                    <h4 class="dateHeader">@Html.DisplayFor(modelItem => item.Value.Key.Date)</h4>
+                    
+                    @{
+                        var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
+
+                        foreach (var dag in valueList)
+                        {
+                            <div class="eventBlock">
+                                @Html.DisplayFor(dagTime => dag.EventTime)
+                                @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
+                            </div>
+                        }
+                    }
+                    </div><!-- .scheduleDay -->
+                }
+                else if (Today - Yesterday > 1)
+                {
+                    int diff = Today - Yesterday;
+
+                    for (int i = 1; i < diff; i++)
+                    {
+                        DateTime emptyDay = scheduleDay[yesterdayIndex].Value.Key.AddDays(i);
+                        <div class="scheduleDay">
+                        <h4>@emptyDay.DayOfWeek</h4>
+                        <h4 class="dateHeader">@emptyDay</h4>
+                        </div>
+                    }
+
+                    <div class="scheduleDay">
+                    <h4>@Html.DisplayFor(modelItem => item.Value.Key.DayOfWeek)</h4>
+                    <h4 class="dateHeader">@Html.DisplayFor(modelItem => item.Value.Key.Date)</h4>
+
+                    @{
+                        var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
+                        
+                        foreach (var dag in valueList)
+                        {
+                            <div class="eventBlock">
+                                @Html.DisplayFor(dagTime => dag.EventTime)
+                                @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
+                            </div>
+                        }
+                    }
+                    </div>
+                }
+            }
+            else // INDEX = 0, eerste event
+            {
+                switch (item.Value.Key.DayOfWeek.ToString())
+                {
+                    case "Tuesday":
+                        for (int i = 1; i > 0; i--)
+                        {
+                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                            <div class="scheduleDay">
+                                <h4>@emptyDay.DayOfWeek</h4>
+                                <h4 class="dateHeader">@emptyDay</h4>
+                            </div>
+                        }
+                        break;
+                    case "Wednesday":
+                        for (int i = 2; i > 0; i--)
+                        {
+                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                            <div class="scheduleDay">
+                                <h4>@emptyDay.DayOfWeek</h4>
+                                <h4 class="dateHeader">@emptyDay</h4>
+                            </div>
+                        }
+                        break;
+                    case "Thursday":
+                        for (int i = 3; i > 0; i--)
+                        {
+                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                            <div class="scheduleDay">
+                                <h4>@emptyDay.DayOfWeek</h4>
+                                <h4 class="dateHeader">@emptyDay</h4>
+                            </div>
+                        }
+                        break;
+                    case "Fridayday":
+                        for (int i = 4; i > 0; i--)
+                        {
+                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                            <div class="scheduleDay">
+                                <h4>@emptyDay.DayOfWeek</h4>
+                                <h4 class="dateHeader">@emptyDay</h4>
+                            </div>
+                        }
+                        break;
+                    case "Saturday":
+                        for (int i = 5; i > 0; i--)
+                        {
+                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                            <div class="scheduleDay">
+                                <h4>@emptyDay.DayOfWeek</h4>
+                                <h4 class="dateHeader">@emptyDay</h4>
+                            </div>
+                        }
+                        break;
+                    case "Sunday":
+                        for (int i = 6; i > 0; i--)
+                        {
+                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                            <div class="scheduleDay">
+                                <h4>@emptyDay.DayOfWeek</h4>
+                                <h4 class="dateHeader">@emptyDay</h4>
+                            </div>
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                <div class="scheduleDay">
+                    <h4>@Html.DisplayFor(modelItem => item.Value.Key.DayOfWeek)</h4>
+                    <h4 class="dateHeader">@Html.DisplayFor(modelItem => item.Value.Key.Date)</h4>
+
+                    @{
+                var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
+
+                foreach (var dag in valueList)
+                {
+                    <div class="eventBlock">
+                        @Html.DisplayFor(dagTime => dag.EventTime)
+                        @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
+                    </div>
+                }
+                    }
+                </div><!-- .scheduleDay -->
+            }
+        }            
+    </div><!-- .scheduleWeek -->
 </div>
-@*<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ScheduleId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
