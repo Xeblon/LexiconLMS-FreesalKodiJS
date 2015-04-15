@@ -1,4 +1,5 @@
 ﻿@using LexiconLMS.Helpers
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,15 +33,16 @@
                     <li>@Html.ListItemAction("Home", "Index", "Home")</li>
                     <li>@Html.ListItemAction("About", "About", "Home")</li>
                     <li>@Html.ListItemAction("Contact", "Contact", "Home")</li>
+                    <li>@Html.ListItemAction("Schedule", "Index", "Schedules")</li>
                 </ul><!-- .nav .navbar-nav -->
             </div><!-- .navbar-collapse .collapse -->
+            @Html.Partial("_PageMenu")
         </div><!-- .container-->
     </div><!-- .mainNav -->
     
-    
     <div class="container body-content">
         @RenderBody()
-        <hr />
+            <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>

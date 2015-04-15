@@ -2,57 +2,39 @@
 
 @{
     ViewBag.Title = "Details";
+    string date = Model.Date.Date.ToString("yyyy/MM/dd");
+    string dayTime = "";
+    switch(Model.Time)
+    {
+        case 1:
+            dayTime = "Förmiddag";
+            break;
+        case 2:
+            dayTime = "Eftermiddag";
+            break;
+        case 3:
+            dayTime = "Heldag";
+            break;
+        default:
+            break;
+    }
 }
+<div class="pageMenu"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>@Html.DisplayFor(model => model.Name)</h2>
+            <p>@Html.DisplayFor(model => model.Summary)</p>
+        </div><!-- .col-md-8 -->
+        <div class="col-md-4 sideBlock">
+        <h4>Date: @date</h4>
+        <h5>@Html.DisplayFor(model => model.Date.DayOfWeek), @dayTime</h5>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Back to List", "Details", "Schedules", new { id = Model.ScheduleId }, null)
+            </p>
+        </div><!-- .col-md-4 -->
+    </div><!-- .row -->
+</div><!-- .container -->
 
-<h2>Details</h2>
-<h3>Details of the event - will become a partial</h3>
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Schedules.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Schedules.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Summary)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Summary)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Time)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Time)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Details", "Schedules", new { id = Model.ScheduleId }, null)
-</p>

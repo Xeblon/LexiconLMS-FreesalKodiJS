@@ -15,8 +15,8 @@ namespace LexiconLMS.Helpers
             var currentControllerName = (string)helper.ViewContext.RouteData.Values["controller"];
             var currentActionName = (string)helper.ViewContext.RouteData.Values["action"];
             var sb = new StringBuilder();
-            sb.AppendFormat("<li{0}", (currentControllerName.Equals(controllerName, StringComparison.CurrentCultureIgnoreCase) &&
-                                                currentActionName.Equals(actionName, StringComparison.CurrentCultureIgnoreCase)
+            sb.AppendFormat("<li{0}", (currentControllerName.Equals(controllerName, StringComparison.CurrentCultureIgnoreCase)&&
+                                                currentActionName.Equals(actionName, StringComparison.CurrentCultureIgnoreCase)                                                    
                                                     ? " class=\"active\">" : ">"));
             var url = new UrlHelper(HttpContext.Current.Request.RequestContext);
             sb.AppendFormat("<a href=\"{0}\">{1}</a>", url.Action(actionName, controllerName), name);

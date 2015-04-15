@@ -1,0 +1,26 @@
+﻿@using LexiconLMS.Helpers
+
+@{
+    string currentUrl = Request.Url.ToString();
+}
+
+@if ((currentUrl.Contains("Schedule")) || (currentUrl.Contains("Event")))
+{
+    <ul class="nav navbar-nav navPage">
+        @*THE ADD EVENT BUTTON - ONLY VISIBLE FOR THE ADMIN ROLE*@
+        @if (User.IsInRole("admin"))
+        {
+            <li>@Html.ListItemAction("Add Event", "Create", "Events")</li>
+        }
+        
+        @*THE GO BACK TO SCHEDULE BUTTON - ONLY VISIBLE WHEN IN EVENTS*@
+        @if (currentUrl.Contains("Event"))
+        {
+            <li>@Html.ActionLink("Back to List", "Details", "Schedules", null , null)</li>
+        }
+    </ul><!-- .nav .navbar-nav -->
+}
+else
+{
+    <p>A custom page menu comes here</p>
+}
