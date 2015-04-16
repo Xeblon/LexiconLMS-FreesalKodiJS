@@ -7,13 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LexiconLMS.Models;
+using LexiconLMS.ViewModels;
 
 namespace LexiconLMS.Controllers
 {
     public class GroupsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Groups
         public ActionResult Index()
         {
@@ -33,8 +33,80 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
-            return View(group);
+
+            List<GroupUsersViewModels> GUVM = new List<GroupUsersViewModels>();
+
+            var GInfo = db.Users;
+            //var us = db.Users.Single(u => u.Id == id);
+            //foreach (ApplicationUser user in db.Users.Single(db.Groups.Single(g => g.Id == group.Id)))
+            foreach (ApplicationUser user  in GInfo.Where(u => u.Groups.FirstOrDefault().Id == group.Id))
+            {
+                GUVM.Add(
+                    new ViewModels.GroupUsersViewModels
+                    {
+                        auId = user.Id,
+                        Fname = user.FName,
+                        Lname = user.LName,
+                        Email = user.Email,
+                        GroupName = group.GroupName,
+                        Id = group.Id,
+                        UserName = user.UserName
+                    }
+                );
+            }
+            ViewBag.GId = group.Id;
+            ViewBag.GName = group.GroupName;
+            return View(GUVM);
         }
+
+        // GET: Groups/Details/5
+         [HttpPost]
+        public ActionResult Details(int? id, string[] Select)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Group group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (Select != null && Select.Length > 0)
+            {
+                foreach (string cId in Select)
+                {
+                    
+                    var us = group.Users.Single(u => u.Id.Equals(cId));
+                    group.Users.Remove(us);
+                }
+            }
+            db.SaveChanges();
+
+            List<GroupUsersViewModels> GUVM = new List<GroupUsersViewModels>();
+            var GInfo = db.Users;
+
+            foreach (ApplicationUser user in GInfo.Where(u => u.Groups.FirstOrDefault().Id == group.Id))
+            {
+                GUVM.Add(
+                    new ViewModels.GroupUsersViewModels
+                    {
+                        Fname = user.FName,
+                        Lname = user.LName,
+                        Email = user.Email,
+                        GroupName = group.GroupName,
+                        Id = group.Id,
+                        UserName = user.UserName
+
+                    }
+                );
+            }
+            ViewBag.GId = group.Id;
+            ViewBag.GName = group.GroupName;
+            return View(GUVM);
+        }
+
 
         // GET: Groups/Create
         public ActionResult Create()
@@ -129,9 +201,51 @@ namespace LexiconLMS.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult AddUser() 
+
+        public ActionResult AddUser(int? id)
         {
-            return View(db.Users.ToList());
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Group group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+
+            var GInfo = db.Users.Where(u => u.Groups.FirstOrDefault().Id != group.Id);
+
+            ViewBag.GId = group.Id;
+            return View(GInfo.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult AddUser(int? id, string[] Select)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Group group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+
+            
+            if (Select != null && Select.Length > 0)
+            {
+                foreach (string cId in Select)
+                {
+                    var us = db.Users.Single(u => u.Id.Equals(cId));
+                    group.Users.Add(us);
+                }
+            }
+            var GInfo = db.Users.Where(u => u.Groups.FirstOrDefault().Id != group.Id);
+            db.SaveChanges();
+            ViewBag.GId = group.Id;
+            return View(GInfo.ToList());
         }
 
         public ActionResult CreateSchedule()
