@@ -243,6 +243,7 @@ namespace LexiconLMS.Controllers
             }
             db.SaveChanges();
             var GInfo = db.Users.Where(u => u.Groups.FirstOrDefault().Id != group.Id);
+
             ViewBag.GId = group.Id;
             return View(GInfo.ToList());
         }
