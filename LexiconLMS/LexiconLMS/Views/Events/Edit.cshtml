@@ -1,9 +1,12 @@
 ﻿@model LexiconLMS.Models.Event
+@using LexiconLMS.Helpers
 
 @{
     ViewBag.Title = "Edit";
+    var link = ViewBag.sid;
     string date = Model.Date.Date.ToString("yyyy/MM/dd");
     string dayTime = "";
+    string currentUrl = Request.Url.ToString();
     switch (Model.Time)
     {
         case 1:
@@ -19,6 +22,15 @@
             break;
     }
 }
+
+<div class="pageNav navbar navbar-fixed-top">
+    <div class="container">
+        <ul class="nav navbar-nav navPage">
+                <li>@Html.ActionLink("Cancel", "Details", new { id = Model.Id })</li>
+        </ul><!-- .nav .navbar-nav -->
+    </div>
+</div>
+
 
 <div class="container">
     <div class="row">
@@ -82,9 +94,6 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-5">
                             <input type="submit" value="Save" class="btn btn-default" />
-                        </div>
-                        <div class="col-md-5">
-                            @Html.ActionLink("Cancel", "Details", new { id = Model.Id })
                         </div>
                     </div>
                 </div>
