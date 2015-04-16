@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
+    var link = ViewBag.sid;
     string date = Model.Date.Date.ToString("yyyy/MM/dd");
     string dayTime = "";
     switch(Model.Time)
@@ -19,7 +20,20 @@
             break;
     }
 }
-<div class="pageMenu"></div>
+<div class="pageNav navbar navbar-fixed-top">
+    <div class="container">
+        <ul class="nav navbar-nav navPage">
+            @*THE ADD EVENT BUTTON - ONLY VISIBLE FOR THE ADMIN ROLE*@
+            @if (!User.IsInRole("admin"))
+            {
+                <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</li>
+            }
+            <li>@Html.ActionLink("Back", "Details", "Schedules", new { id = Model.ScheduleId }, null )</li>
+            
+        </ul><!-- .nav .navbar-nav -->
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8">
@@ -29,10 +43,6 @@
         <div class="col-md-4 sideBlock">
         <h4>Date: @date</h4>
         <h5>@Html.DisplayFor(model => model.Date.DayOfWeek), @dayTime</h5>
-            <p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                @Html.ActionLink("Back to List", "Details", "Schedules", new { id = Model.ScheduleId }, null)
-            </p>
         </div><!-- .col-md-4 -->
     </div><!-- .row -->
 </div><!-- .container -->

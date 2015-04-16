@@ -1,292 +1,305 @@
 ﻿@model IEnumerable<LexiconLMS.Models.ViewModels.scheduleViewModel>
+@using LexiconLMS.Helpers
 
 @{
     ViewBag.Title = "Details";
+    var link = ViewBag.sid;
+    string currentUrl = Request.Url.ToString();
     var scheduleDay = Model
                 .GroupBy(item => item.EventDate)
-                .Select((x, i) => new { Index = i, Value = x})
+                .Select((x, i) => new { Index = i, Value = x })
                 .ToList();
 }
-
-<h3>Vårt schema</h3>
-
-<div>
-    <div class="scheduleWeek">
-
-        @foreach (var item in scheduleDay)
-        {
-            var todayIndex = item.Index;
-            var yesterdayIndex = item.Index - 1;
-            var Today = scheduleDay[todayIndex].Value.Key.DayOfYear;
-            string none = "";
-            string date = item.Value.Key.Date.ToString("yyyy/MM/dd");
-            string day =  item.Value.Key.DayOfWeek.ToString();
-            string todayDate = DateTime.Today.ToString("yyyy/MM/dd");
-            string TimeOfDay = "";
-            string currentDay = "";
-            
-            if (todayIndex != 0)
-            {                
-                var Yesterday = scheduleDay[yesterdayIndex].Value.Key.DayOfYear;
-                    
-                if (Today - Yesterday == 1)
+<div class="pageNav navbar navbar-fixed-top">
+    <div class="container">
+            <ul class="nav navbar-nav navPage">
+                @*THE ADD EVENT BUTTON - ONLY VISIBLE FOR THE ADMIN ROLE*@
+                @if (!User.IsInRole("admin"))
                 {
-                    if (date == todayDate)
-                    {
-                        currentDay = "currentDay";
-                    }
-                    else
-                    {
-                        currentDay = "";
-                    }
-                               
-                    <div class="scheduleDay @currentDay">
-                        <h4 class="dayHeader">@day</h4>
-                        <h4 class="dateHeader">@date</h4>
-                    
-                    @{
-                        var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
-
-                        foreach (var dag in valueList)
-                        {
-                            switch(dag.EventTime)
-                            {
-                                case 1:
-                                    TimeOfDay = "Förmiddag";
-                                    break;
-                                case 2:
-                                    TimeOfDay = "Eftermiddag";
-                                    break;
-                                case 3:
-                                    TimeOfDay = "Heldag";
-                                    break;
-                                default:
-                                    break;
-                            }
-                            <div class="eventBlock">
-                                <span class="DayTime">@TimeOfDay</span>
-                                @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
-                            </div>
-                        }
-                    }
-                    </div><!-- .scheduleDay -->
+                    <li>@Html.ActionLink("Add Event", "Create", "Events", new { id = link }, null)</li>
                 }
-                // FILL IN THE EMPTY DAYS
-                else if (Today - Yesterday > 1)
-                {
-                    int diff = Today - Yesterday;
-                    
-                    for (int i = 1; i < diff; i++)
-                    {
-                        DateTime emptyDay = scheduleDay[yesterdayIndex].Value.Key.AddDays(i);
-                        
-                        // TAKE AWAY SATURDAY AND SUNDAY
-                        if ((emptyDay.DayOfWeek.ToString() == "Sunday") || (emptyDay.DayOfWeek.ToString() == "Saturday"))
-                        {
-                            none = "none";
-                        }
-                        else
-                        {
-                            none = "";
-                        }
-                        
-                        //// MARK THE CURRENT DAY WHEN DAY IS EMPTY
-                        if (emptyDay.ToString("yyyy/MM/dd") == todayDate)
-                        {
-                            currentDay = "currentDay";
-                        }
-                        else
-                        {
-                            currentDay = "";
-                        }
-                        
-                        // PRINT EMPTY DAY(S)
-                        <div class="scheduleDay @none @currentDay">
-                            <h4 class ="dayHeader">@emptyDay.DayOfWeek</h4>
-                            <h4 class="dateHeader">@emptyDay.ToString("yyyy/MM/dd")</h4>
-                        </div>
-                    }
-
-                    if (date == todayDate)
-                    {
-                        currentDay = "currentDay";
-                    }
-                    else
-                    {
-                        currentDay = "";
-                    }
-                    
-                    // PRINT DAY WITH EVENTS FOLLOWING EMPTY DAYS -> NEXT ITEM IN LIST
-                    <div class="scheduleDay @currentDay">
-                        <h4 class ="dayHeader">@day</h4>
-                        <h4 class="dateHeader">@date</h4>
-
-                    @{
-                        var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
-                        
-                        foreach (var dag in valueList)
-                        {
-                            switch (dag.EventTime)
-                            {
-                                case 1:
-                                    TimeOfDay = "Förmiddag";
-                                    break;
-                                case 2:
-                                    TimeOfDay = "Eftermiddag";
-                                    break;
-                                case 3:
-                                    TimeOfDay = "Heldag";
-                                    break;
-                                default:
-                                    break;
-                            }
-                            
-                            <div class="eventBlock">
-                                <span class="DayTime">@TimeOfDay</span>
-                                @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
-                            </div>
-                        }
-                    }
-                    </div>
-                }
-            }
-            else // INDEX = 0, eerste event
-            {
-                switch (item.Value.Key.DayOfWeek.ToString())
-                {
-                    case "Tuesday":
-                        for (int i = 1; i > 0; i--)
-                        {
-                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
-                            string emptyDate = emptyDay.ToString("yyyy/MM/dd");
-
-                            //// MARK THE CURRENT DAY
-                            if (emptyDate == todayDate)
-                            {
-                                currentDay = "currentDay";
-                            }
-                            else
-                            {
-                                currentDay = "";
-                            }
-                            
-                            <div class="scheduleDay @currentDay">
-                                <h4 class ="dayHeader">@emptyDay.DayOfWeek</h4>
-                                <h4 class="dateHeader">@emptyDate</h4>
-                            </div>
-                        }
-                        break;
-                    case "Wednesday":
-                        for (int i = 2; i > 0; i--)
-                        {
-                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
-                            string emptyDate = emptyDay.ToString("yyyy/MM/dd");
-
-                            //// MARK THE CURRENT DAY
-                            if (emptyDate == todayDate)
-                            {
-                                currentDay = "currentDay";
-                            }
-                            else
-                            {
-                                currentDay = "";
-                            }
-                            
-                            <div class="scheduleDay @currentDay">
-                                <h4 class="dayHeader">@emptyDay.DayOfWeek</h4>
-                                <h4 class="dateHeader">@emptyDate</h4>
-                            </div>
-                        }
-                        break;
-                    case "Thursday":
-                        for (int i = 3; i > 0; i--)
-                        {
-                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
-                            string emptyDate = emptyDay.ToString("yyyy/MM/dd");
-
-                            // MARK THE CURRENT DAY
-                            if (emptyDate == todayDate)
-                            {
-                                currentDay = "currentDay";
-                            }
-                            else
-                            {
-                                currentDay = "";
-                            }
-                            
-                            <div class="scheduleDay @currentDay">
-                                <h4 class="dayHeader">@emptyDay.DayOfWeek</h4>
-                                <h4 class="dateHeader">@emptyDate</h4>
-                            </div>
-                        }
-                        break;
-                    case "Friday":
-                        for (int i = 4; i > 0; i--)
-                        {
-                            DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
-                            string emptyDate = emptyDay.ToString("yyyy/MM/dd");
-
-                            // MARK THE CURRENT DAY
-                            if (emptyDate == todayDate)
-                            {
-                                currentDay = "currentDay";
-                            }
-                            else
-                            {
-                                currentDay = "";
-                            }
-                            
-                            <div class="scheduleDay @currentDay">
-                                <h4 class="dayHeader">@emptyDay.DayOfWeek</h4>
-                                <h4 class="dateHeader">@emptyDate</h4>
-                            </div>
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
-                if (date == todayDate)
-                {
-                    currentDay = "currentDay";
-                }
-                else
-                {
-                    currentDay = "";
-                }
-                
-                <div class="scheduleDay @none @currentDay">
-                    <h4 class="dayHeader">@day</h4>
-                    <h4 class="dateHeader">@date</h4>
-
-                    @{
-                var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
-
-                foreach (var dag in valueList)
-                {
-                    switch (dag.EventTime)
-                    {
-                        case 1:
-                            TimeOfDay = "Förmiddag";
-                            break;
-                        case 2:
-                            TimeOfDay = "Eftermiddag";
-                            break;
-                        case 3:
-                            TimeOfDay = "Heldag";
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    <div class="eventBlock">
-                        <span class="DayTime">@TimeOfDay</span>
-                        @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
-                    </div>
-                }
-                    }
-                </div><!-- .scheduleDay -->
-            }
-        }            
-    </div><!-- .scheduleWeek -->
+            </ul><!-- .nav .navbar-nav -->
+    </div>
 </div>
+
+            <h3>Vårt schema</h3>
+            <div>
+                <div class="scheduleWeek">
+
+                    @foreach (var item in scheduleDay)
+                    {
+                        var todayIndex = item.Index;
+                        var yesterdayIndex = item.Index - 1;
+                        var Today = scheduleDay[todayIndex].Value.Key.DayOfYear;
+                        string none = "";
+                        string date = item.Value.Key.Date.ToString("yyyy/MM/dd");
+                        string day = item.Value.Key.DayOfWeek.ToString();
+                        string todayDate = DateTime.Today.ToString("yyyy/MM/dd");
+                        string TimeOfDay = "";
+                        string currentDay = "";
+
+                        if (todayIndex != 0)
+                        {
+                            var Yesterday = scheduleDay[yesterdayIndex].Value.Key.DayOfYear;
+
+                            if (Today - Yesterday == 1)
+                            {
+                                if (date == todayDate)
+                                {
+                                    currentDay = "currentDay";
+                                }
+                                else
+                                {
+                                    currentDay = "";
+                                }
+
+                                <div class="scheduleDay @currentDay">
+                                    <h4 class="dayHeader">@day</h4>
+                                    <h4 class="dateHeader">@date</h4>
+
+                                    @{
+                                var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
+
+                                foreach (var dag in valueList)
+                                {
+                                    switch (dag.EventTime)
+                                    {
+                                        case 1:
+                                            TimeOfDay = "Förmiddag";
+                                            break;
+                                        case 2:
+                                            TimeOfDay = "Eftermiddag";
+                                            break;
+                                        case 3:
+                                            TimeOfDay = "Heldag";
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    <div class="eventBlock">
+                                        <span class="DayTime">@TimeOfDay</span>
+                                        @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
+                                    </div>
+                                }
+                                    }
+                                </div><!-- .scheduleDay -->
+                            }
+                            // FILL IN THE EMPTY DAYS
+                            else if (Today - Yesterday > 1)
+                            {
+                                int diff = Today - Yesterday;
+
+                                for (int i = 1; i < diff; i++)
+                                {
+                                    DateTime emptyDay = scheduleDay[yesterdayIndex].Value.Key.AddDays(i);
+
+                                    // TAKE AWAY SATURDAY AND SUNDAY
+                                    if ((emptyDay.DayOfWeek.ToString() == "Sunday") || (emptyDay.DayOfWeek.ToString() == "Saturday"))
+                                    {
+                                        none = "none";
+                                    }
+                                    else
+                                    {
+                                        none = "";
+                                    }
+
+                                    //// MARK THE CURRENT DAY WHEN DAY IS EMPTY
+                                    if (emptyDay.ToString("yyyy/MM/dd") == todayDate)
+                                    {
+                                        currentDay = "currentDay";
+                                    }
+                                    else
+                                    {
+                                        currentDay = "";
+                                    }
+
+                                    // PRINT EMPTY DAY(S)
+                                    <div class="scheduleDay @none @currentDay">
+                                        <h4 class="dayHeader">@emptyDay.DayOfWeek</h4>
+                                        <h4 class="dateHeader">@emptyDay.ToString("yyyy/MM/dd")</h4>
+                                    </div>
+                                }
+
+                                if (date == todayDate)
+                                {
+                                    currentDay = "currentDay";
+                                }
+                                else
+                                {
+                                    currentDay = "";
+                                }
+
+                                // PRINT DAY WITH EVENTS FOLLOWING EMPTY DAYS -> NEXT ITEM IN LIST
+                                <div class="scheduleDay @currentDay">
+                                    <h4 class="dayHeader">@day</h4>
+                                    <h4 class="dateHeader">@date</h4>
+
+                                    @{
+                                var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
+
+                                foreach (var dag in valueList)
+                                {
+                                    switch (dag.EventTime)
+                                    {
+                                        case 1:
+                                            TimeOfDay = "Förmiddag";
+                                            break;
+                                        case 2:
+                                            TimeOfDay = "Eftermiddag";
+                                            break;
+                                        case 3:
+                                            TimeOfDay = "Heldag";
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    <div class="eventBlock">
+                                        <span class="DayTime">@TimeOfDay</span>
+                                        @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
+                                    </div>
+                                }
+                                    }
+                                </div>
+                            }
+                        }
+                        else // INDEX = 0, eerste event
+                        {
+                            switch (item.Value.Key.DayOfWeek.ToString())
+                            {
+                                case "Tuesday":
+                                    for (int i = 1; i > 0; i--)
+                                    {
+                                        DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                                        string emptyDate = emptyDay.ToString("yyyy/MM/dd");
+
+                                        //// MARK THE CURRENT DAY
+                                        if (emptyDate == todayDate)
+                                        {
+                                            currentDay = "currentDay";
+                                        }
+                                        else
+                                        {
+                                            currentDay = "";
+                                        }
+
+                                        <div class="scheduleDay @currentDay">
+                                            <h4 class="dayHeader">@emptyDay.DayOfWeek</h4>
+                                            <h4 class="dateHeader">@emptyDate</h4>
+                                        </div>
+                                    }
+                                    break;
+                                case "Wednesday":
+                                    for (int i = 2; i > 0; i--)
+                                    {
+                                        DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                                        string emptyDate = emptyDay.ToString("yyyy/MM/dd");
+
+                                        //// MARK THE CURRENT DAY
+                                        if (emptyDate == todayDate)
+                                        {
+                                            currentDay = "currentDay";
+                                        }
+                                        else
+                                        {
+                                            currentDay = "";
+                                        }
+
+                                        <div class="scheduleDay @currentDay">
+                                            <h4 class="dayHeader">@emptyDay.DayOfWeek</h4>
+                                            <h4 class="dateHeader">@emptyDate</h4>
+                                        </div>
+                                    }
+                                    break;
+                                case "Thursday":
+                                    for (int i = 3; i > 0; i--)
+                                    {
+                                        DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                                        string emptyDate = emptyDay.ToString("yyyy/MM/dd");
+
+                                        // MARK THE CURRENT DAY
+                                        if (emptyDate == todayDate)
+                                        {
+                                            currentDay = "currentDay";
+                                        }
+                                        else
+                                        {
+                                            currentDay = "";
+                                        }
+
+                                        <div class="scheduleDay @currentDay">
+                                            <h4 class="dayHeader">@emptyDay.DayOfWeek</h4>
+                                            <h4 class="dateHeader">@emptyDate</h4>
+                                        </div>
+                                    }
+                                    break;
+                                case "Friday":
+                                    for (int i = 4; i > 0; i--)
+                                    {
+                                        DateTime emptyDay = scheduleDay[todayIndex].Value.Key.AddDays(-i);
+                                        string emptyDate = emptyDay.ToString("yyyy/MM/dd");
+
+                                        // MARK THE CURRENT DAY
+                                        if (emptyDate == todayDate)
+                                        {
+                                            currentDay = "currentDay";
+                                        }
+                                        else
+                                        {
+                                            currentDay = "";
+                                        }
+
+                                        <div class="scheduleDay @currentDay">
+                                            <h4 class="dayHeader">@emptyDay.DayOfWeek</h4>
+                                            <h4 class="dateHeader">@emptyDate</h4>
+                                        </div>
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            if (date == todayDate)
+                            {
+                                currentDay = "currentDay";
+                            }
+                            else
+                            {
+                                currentDay = "";
+                            }
+
+                            <div class="scheduleDay @none @currentDay">
+                                <h4 class="dayHeader">@day</h4>
+                                <h4 class="dateHeader">@date</h4>
+
+                                @{
+                            var valueList = item.Value.OrderBy(t => t.EventTime).ToList();
+
+                            foreach (var dag in valueList)
+                            {
+                                switch (dag.EventTime)
+                                {
+                                    case 1:
+                                        TimeOfDay = "Förmiddag";
+                                        break;
+                                    case 2:
+                                        TimeOfDay = "Eftermiddag";
+                                        break;
+                                    case 3:
+                                        TimeOfDay = "Heldag";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                <div class="eventBlock">
+                                    <span class="DayTime">@TimeOfDay</span>
+                                    @Html.ActionLink(dag.EventName, "Details", "Events", new { id = dag.EventId }, null)
+                                </div>
+                            }
+                                }
+                            </div><!-- .scheduleDay -->
+                        }
+                    }
+                </div><!-- .scheduleWeek -->
+            </div>

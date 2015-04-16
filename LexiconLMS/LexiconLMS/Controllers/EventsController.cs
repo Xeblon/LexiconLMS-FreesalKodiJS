@@ -17,9 +17,9 @@ namespace LexiconLMS.Controllers
         // GET: Events
         public ActionResult Index()
         {
-          //  var events = db.Events.Include(@ => @.Schedules);
+            var events = db.Events.Include(s => s.ScheduleId);
           //  return View(events.ToList());
-            return View();
+            return View(events);
         }
 
         // GET: Events/Details/5
@@ -30,17 +30,30 @@ namespace LexiconLMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Event @event = db.Events.Find(id);
+
             if (@event == null)
             {
                 return HttpNotFound();
             }
+
             return View(@event);
         }
 
         // GET: Events/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            ViewBag.ScheduleId = new SelectList(db.Schedules, "Id", "Name");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Schedule schedule = db.Schedules.Find(id);
+            if (schedule == null)
+            {
+                return HttpNotFound();
+            }
+  
+            //ViewBag.ScheduleId = new SelectList(db.Schedules, "Id", "Name");
+            ViewBag.sid = schedule.Id;
             return View();
         }
 

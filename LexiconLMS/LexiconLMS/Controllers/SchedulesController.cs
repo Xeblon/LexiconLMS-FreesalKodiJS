@@ -19,6 +19,7 @@ namespace LexiconLMS.Controllers
         // GET: Schedules
         public ActionResult Index()
         {
+            var schedules = db.Schedules.Include(s => s.Events);
             return View(db.Schedules.ToList());
         }
 
@@ -36,7 +37,7 @@ namespace LexiconLMS.Controllers
             }
 
             AddDays();
-
+            ViewBag.sid = schedule.Id;
             return View(scheduleVM);        
         }
 
