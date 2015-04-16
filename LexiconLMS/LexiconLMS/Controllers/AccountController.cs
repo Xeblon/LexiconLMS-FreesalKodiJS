@@ -12,12 +12,14 @@ using Microsoft.Owin.Security;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using LexiconLMS.Models;
+using System.Net;
 
 namespace LexiconLMS.Controllers
 {
     [Authorize (Roles = "admin")]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -141,6 +143,22 @@ namespace LexiconLMS.Controllers
         // GET: /Account/Register
         public ActionResult Register()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RegisterToGroup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Group group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+
             return View();
         }
 
