@@ -72,7 +72,6 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
-
             if (Select != null && Select.Length > 0)
             {
                 foreach (string cId in Select)
@@ -242,8 +241,8 @@ namespace LexiconLMS.Controllers
                     group.Users.Add(us);
                 }
             }
-            var GInfo = db.Users.Where(u => u.Groups.FirstOrDefault().Id != group.Id);
             db.SaveChanges();
+            var GInfo = db.Users.Where(u => u.Groups.FirstOrDefault().Id != group.Id);
             ViewBag.GId = group.Id;
             return View(GInfo.ToList());
         }
