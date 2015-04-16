@@ -1,4 +1,5 @@
 ﻿@using LexiconLMS.Helpers
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,7 @@
     <div class="navbar navbar-fixed-top secNav">
         <div class="container">
             <div class="navbar-header">
-                @Html.ActionLink("Lexicon LMS", "Index", "Home", new { @class = "navbar-brand" })
+                @Html.ActionLink("Lexicon LMS", "Index", "Home", null, new { @class = "navbar-brand" })
             </div><!-- .navbar-header -->  
                 @Html.Partial("_LoginPartial")  
         </div><!-- .container -->
@@ -32,15 +33,15 @@
                     <li>@Html.ListItemAction("Home", "Index", "Home")</li>
                     <li>@Html.ListItemAction("About", "About", "Home")</li>
                     <li>@Html.ListItemAction("Contact", "Contact", "Home")</li>
+                    <li>@Html.ListItemAction("Schedule", "Index", "Schedules")</li>
                 </ul><!-- .nav .navbar-nav -->
             </div><!-- .navbar-collapse .collapse -->
         </div><!-- .container-->
     </div><!-- .mainNav -->
     
-    
     <div class="container body-content">
         @RenderBody()
-        <hr />
+            <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>

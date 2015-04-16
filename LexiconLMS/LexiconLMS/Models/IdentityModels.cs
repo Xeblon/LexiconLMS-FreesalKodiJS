@@ -57,6 +57,8 @@ namespace LexiconLMS.Models
         public System.Data.Entity.DbSet<LexiconLMS.Models.Group> Groups { get; set; }
         public System.Data.Entity.DbSet<LexiconLMS.Models.Schedule> Schedules { get; set; }
         public System.Data.Entity.DbSet<LexiconLMS.Models.Files> Files { get; set; }
+        public System.Data.Entity.DbSet<LexiconLMS.Models.Event> Events { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
