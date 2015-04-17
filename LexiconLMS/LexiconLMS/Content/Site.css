@@ -1,0 +1,229 @@
+﻿*{
+    padding:0;
+    margin:0;
+}
+body {
+    padding-top:150px;
+    padding-bottom: 20px;
+    max-width:800px;
+    margin:0px auto;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#202020;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* ------ HEADER ------ */
+.navbar{
+    height:70px;
+    padding:0px;
+    background:#000;
+}
+.navbar .container{
+    max-width:800px;
+}
+a.navbar-brand {
+    margin-top:10px;
+    padding-left:120px;
+    height: 50px;
+    width: 160px;
+    background-image: url('images/logo-lexicon@2x.gif');
+    background-size:145px 50px;
+    background-repeat: no-repeat;
+    background-position: 15px 0px;
+    display: block;
+    text-indent: -999999px;
+}
+.secNav ul li a{
+    color:#8eff96;
+    font-size:10px;
+}
+.secNav ul li{
+    padding-top:10px;
+}
+.secNav ul li a:hover{
+    background:#000;
+    color:#fff;
+}
+.mainNav{
+    margin-top:70px;
+    width:100%;
+    height:70px;
+    background:#f6f6f6;
+}
+.mainNav ul{
+    width:100%;
+    height:35px;
+    padding-top:10px;
+    padding-bottom:0px;
+}
+.collapse{
+    border-bottom:solid 3px #d60000;
+}
+.mainNav li a{
+    color:#202020;
+    font-size:10px;
+    text-transform:uppercase;
+    font-weight:bolder;
+    height:20px;
+    padding-top:0px;
+    padding-bottom:0px;
+}
+.mainNav li{
+    padding:1px;
+    border:solid 1px #f6f6f6;
+}
+.mainNav li:hover{
+    border-color:#eaeaea;
+}
+.mainNav li.active{
+    background:#d60000;
+}
+.mainNav li.active a{
+    color:#fff;
+}
+.mainNav li.active a:hover{
+    background:#d60000;
+}
+
+/* === PAGE NAV === */
+.pageNav{
+    margin-top:110px;
+    background:red;
+    height:5px;
+    padding-top:5px;
+    padding-bottom:0px;
+    background:#f6f6f6;
+    border-bottom:solid 1px #eaeaea;
+}
+.navPage li{
+    position:relative;
+    margin:0px;
+    border:none;
+}
+.navPage li a{
+    padding:5px 10px;
+    font-size:10px;
+    font-weight:300;
+    color:#202020;
+}
+.navPage li:hover a{
+    color:#202020;
+    background:#eaeaea;
+}
+.navPage li:hover{
+    background:#eaeaea;
+}
+.navPage li.active{
+    background:#f6f6f6;
+}
+.navPage li.active a{
+    color:#d60000;
+}
+.navPage li.active a:hover{
+    background:#eaeaea;
+}
+/* ==== SCHEDULE ==== */
+.scheduleDay{
+    width:19.5%;
+    border:solid 1px #eaeaea;
+    background:#f6f6f6;
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    margin-bottom:20px;
+    height:200px;
+    overflow:auto;
+}
+.currentDay{
+    background:#d60000;
+    color: #fff;
+}
+.none{
+    display:none;
+}
+.dayHeader{
+    font-weight: bold;
+    font-size: 14px;
+    padding-left:5px;
+}
+.dateHeader{
+    font-weight: bold;
+    font-size: 12px;
+    font-style:italic;
+    text-align:right;
+    border-bottom:solid 1px #202020;
+    padding-right:5px;
+}
+.DayTime{
+    display:block;
+    font-size:8px;
+    border-bottom:solid 1px #eaeaea;
+    text-align:right;
+}
+.eventBlock{
+    width:100%;
+    padding:10px 5px;
+}
+.eventBlock:hover{
+    background-color:#eaeaea;
+}
+.eventBlock:hover a{
+    color:#202020;
+}
+.eventBlock a{
+    color:#198521;
+    font-weight:bolder;
+    font-size:12px;
+    width:100%;
+    height:100%;
+    display:block;
+}
+.eventBlock a:hover{
+    text-decoration:none;
+    color:#202020;
+}
+.currentDay .eventBlock:hover{
+    background-color:#fff;
+}
+.currentDay .eventBlock:hover .DayTime{
+    color:#202020;
+    border-bottom:solid 1px #202020;
+}
+.currentDay a{
+    color:#fff;
+}
+.currentDay .DayTime{
+    border-bottom:solid 1px #fff;
+}
+.currentDay .dateHeader{
+    border-bottom:solid 1px #fff;
+}
+/* ==== EVENTS ====*/
+.sideBlock{
+    border:solid 1px #eaeaea;
+    background:#f6f6f6;
+    position:relative;
+   margin-top:30px;
+    margin-bottom:20px;
+}
+.currentBlock p{
+    font-size: 10px;
+}
