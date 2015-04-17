@@ -43,7 +43,7 @@ namespace LexiconLMS.Migrations
             context.Schedules.AddOrUpdate(
                 new Schedule { Id = 0, Name = "Empty Schedual" }
             );
-            
+
         }
     }
 }

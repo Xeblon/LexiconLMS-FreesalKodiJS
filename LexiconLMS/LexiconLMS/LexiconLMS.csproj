@@ -169,9 +169,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ActiveLinkHelper.cs" />
-    <Compile Include="Migrations\201504080949556_initial.cs" />
-    <Compile Include="Migrations\201504080949556_initial.Designer.cs">
-      <DependentUpon>201504080949556_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201504170728306_initial.cs" />
+    <Compile Include="Migrations\201504170728306_initial.Designer.cs">
+      <DependentUpon>201504170728306_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -278,8 +278,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504080949556_initial.resx">
-      <DependentUpon>201504080949556_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201504170728306_initial.resx">
+      <DependentUpon>201504170728306_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
