@@ -54,3 +54,4 @@ C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\obj\Debug\LexiconLMS
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\bin\Antlr3.Runtime.pdb
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\obj\Debug\LexiconLMS.Migrations.initial.resources
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\obj\Debug\LexiconLMS.csproj.GenerateResource.Cache
+C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\obj\Debug\LexiconLMS.csprojResolveAssemblyReference.cache

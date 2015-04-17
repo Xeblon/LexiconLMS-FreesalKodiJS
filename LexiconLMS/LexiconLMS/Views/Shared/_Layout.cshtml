@@ -33,7 +33,15 @@
                     <li>@Html.ListItemAction("Home", "Index", "Home")</li>
                     <li>@Html.ListItemAction("About", "About", "Home")</li>
                     <li>@Html.ListItemAction("Contact", "Contact", "Home")</li>
-                    <li>@Html.ListItemAction("Schedule", "Index", "Schedules")</li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>@Html.ListItemAction("Schedules", "Index", "Schedules")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Schedule", "Details", "Schedules", new { id = ViewBag.uId }, null)</li>
+                    }
+                    
                 </ul><!-- .nav .navbar-nav -->
             </div><!-- .navbar-collapse .collapse -->
         </div><!-- .container-->
