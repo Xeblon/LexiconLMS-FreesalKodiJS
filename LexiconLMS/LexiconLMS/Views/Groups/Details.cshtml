@@ -1,34 +1,46 @@
-﻿@model LexiconLMS.Models.Group
+﻿@model IEnumerable<LexiconLMS.ViewModels.GroupUsersViewModels>
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+@{var aitem = Model.FirstOrDefault();}
+<h2>@ViewBag.GName</h2>
+@if (ViewBag.SelectError != null)
+{
+    <h3>@ViewBag.SelectError</h3>
+}
+@{int groupId = ViewBag.GId;}
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>UserName</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Remove</th>
 
-<div>
-    <h4>Group</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.schedule.Name)
-        </dt>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Fname)</td>
+                <td>@Html.DisplayFor(modelItem => item.Lname)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>
+                    <input type="checkbox" name="Select" value="@item.auId" />
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>@Html.ActionLink("Add User", "AddUser/" + @groupId, "Groups", null, null)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><input type="submit" value="Remove theese users" /></td>
+        </tr>
+    </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.schedule.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.GroupName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GroupName)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+}
