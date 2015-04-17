@@ -36,10 +36,35 @@ namespace LexiconLMS.Controllers
 
             List<GroupUsersViewModels> GUVM = new List<GroupUsersViewModels>();
 
-            var GInfo = db.Users;
+
             //var us = db.Users.Single(u => u.Id == id);
             //foreach (ApplicationUser user in db.Users.Single(db.Groups.Single(g => g.Id == group.Id)))
-            foreach (ApplicationUser user  in GInfo.Where(u => u.Groups.FirstOrDefault().Id == group.Id))
+            List<ApplicationUser> UG = group.Users.ToList();
+
+            //foreach (var u in group.Users)
+            //{
+            //    try
+            //    {
+            //        if (u.Groups != null && u.Groups.Count > 0)
+            //        {
+            //            foreach (var g in u.Groups)
+            //            {
+            //                if (g.Id == group.Id)
+            //                {
+            //                    UG.Add(u);
+            //                }
+            //            }
+            //        }
+            //    }
+                //catch (System.Data.Entity.Core.EntityCommandExecutionException)
+                //{
+
+                //    //UG = db.Users.Where(us => us.Groups.FirstOrDefault().Id == group.Id);
+                //}
+               
+            //}
+            //foreach (ApplicationUser user in GInfo.Where(u => u.Groups.FirstOrDefault().Id == group.Id))
+            foreach (ApplicationUser user in UG)
             {
                 GUVM.Add(
                     new ViewModels.GroupUsersViewModels
@@ -72,21 +97,35 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
+
             if (Select != null && Select.Length > 0)
             {
+                
                 foreach (string cId in Select)
                 {
-                    
+                    if (Select.FirstOrDefault().Equals("on"))
+                    {
+                        ViewBag.SelectError = "Something went wrong, try again";
+                        break;
+                    }
+   
                     var us = group.Users.Single(u => u.Id.Equals(cId));
                     group.Users.Remove(us);
+                    db.Groups.Find(id).Users.Remove(us);
+                    //Gör dessa ändringar i db.groups :)
                 }
             }
             db.SaveChanges();
-
+            group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
             List<GroupUsersViewModels> GUVM = new List<GroupUsersViewModels>();
-            var GInfo = db.Users;
+            List<ApplicationUser> UG = group.Users.ToList();
 
-            foreach (ApplicationUser user in GInfo.Where(u => u.Groups.FirstOrDefault().Id == group.Id))
+             //foreach (ApplicationUser user in GInfo.Where(u => u.Groups.FirstOrDefault().Id == group.Id))
+            foreach (ApplicationUser user in UG)
             {
                 GUVM.Add(
                     new ViewModels.GroupUsersViewModels
@@ -212,11 +251,20 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
+            //List<ApplicationUser> UG = db.Users.ToList();
+            //foreach (ApplicationUser au in db.Users)
+            //{
+            //    foreach (Group g in au.Groups)
+            //    {
 
-            var GInfo = db.Users.Where(u => u.Groups.FirstOrDefault().Id != group.Id);
-
+            //        if (g.Id == group.Id)
+            //            UG.RemoveAll(u => u.Id == au.Id);
+            //    }
+            //}
+            
+            var Groupinfo = db.Users.Where(u => u.Groups.All(g => g.Id != group.Id));
             ViewBag.GId = group.Id;
-            return View(GInfo.ToList());
+            return View(Groupinfo);
         }
 
         [HttpPost]
@@ -239,13 +287,19 @@ namespace LexiconLMS.Controllers
                 {
                     var us = db.Users.Single(u => u.Id.Equals(cId));
                     group.Users.Add(us);
+                    db.Groups.Find(id).Users.Add(us);
                 }
             }
             db.SaveChanges();
-            var GInfo = db.Users.Where(u => u.Groups.FirstOrDefault().Id != group.Id);
-
+            group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+            
+            var Groupinfo = db.Users.Where(u => u.Groups.All(g => g.Id != group.Id));
             ViewBag.GId = group.Id;
-            return View(GInfo.ToList());
+            return View(Groupinfo);
         }
 
         public ActionResult CreateSchedule()
