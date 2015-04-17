@@ -11,12 +11,14 @@ using LexiconLMS.Models.ViewModels;
 
 namespace LexiconLMS.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class SchedulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         List<scheduleViewModel> scheduleVM = new List<scheduleViewModel>();
 
         // GET: Schedules
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var schedules = db.Schedules.Include(s => s.Events);
@@ -24,6 +26,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Schedules/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,10 +41,12 @@ namespace LexiconLMS.Controllers
 
             AddDays();
             ViewBag.sid = schedule.Id;
+            ViewBag.sname = schedule.Name;
             return View(scheduleVM);        
         }
 
         // ADD DAYS TO VIEWMODEL
+        [AllowAnonymous]
         public void AddDays()
         {
             // VIEW MODEL

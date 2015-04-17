@@ -10,6 +10,7 @@ using LexiconLMS.Models;
 
 namespace LexiconLMS.Controllers
 {
+    [Authorize (Roles = "admin")]
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -23,6 +24,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Events/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -68,7 +70,7 @@ namespace LexiconLMS.Controllers
             {
                 db.Events.Add(@event);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Schedules", new { id = @event.ScheduleId });
             }
 
             ViewBag.ScheduleId = new SelectList(db.Schedules, "Id", "Name", @event.ScheduleId);
@@ -102,7 +104,7 @@ namespace LexiconLMS.Controllers
             {
                 db.Entry(@event).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Schedules", new { id = @event.ScheduleId });
             }
             ViewBag.ScheduleId = new SelectList(db.Schedules, "Id", "Name", @event.ScheduleId);
             return View(@event);
@@ -131,7 +133,7 @@ namespace LexiconLMS.Controllers
             Event @event = db.Events.Find(id);
             db.Events.Remove(@event);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Schedules", new { id = @event.ScheduleId });
         }
 
         protected override void Dispose(bool disposing)

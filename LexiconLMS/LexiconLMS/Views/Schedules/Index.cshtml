@@ -2,32 +2,64 @@
 
 @{
     ViewBag.Title = "Index";
+    var link = ViewBag.sid;
 }
+<div class="pageNav navbar navbar-fixed-top">
+    <div class="container">
+        <ul class="nav navbar-nav navPage">
+            @*THE ADD EVENT BUTTON - ONLY VISIBLE FOR THE ADMIN ROLE*@
+            @if (User.IsInRole("admin"))
+            {
+                <li>@Html.ActionLink("Create New", "Create")</li>
+            }
+        </ul><!-- .nav .navbar-nav -->
+    </div>
+</div>
 
-<h2>THIS VIEW WILL NOT BE USED FOR STUDENTS</h2>           
+<div class="container">
+    <div class="row">
+        
+        <div class="col-md-8">
+            @if (User.IsInRole("admin"))
+            {
+                <h3>Schedules</h3>
+            }
+            else
+            {
+                <h3>Schedule</h3>
+            }
+            
+            <table class="table">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="scheduleName">
+                            @Html.ActionLink(item.Name, "Details", new { id = item.Id })
+                        </td>
+                        <td>
+                            @if (User.IsInRole("admin"))
+                            {
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                                <ul>
+                                    <li>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    </li>
+                                </ul>
 
-</table>
+
+                            }
+                        </td>             
+                    </tr>
+                }
+
+            </table>
+        </div><!-- .col-md-8-->
+        <div class="col-md-4 sideBlock">
+            <p>"content"</p>
+        </div>
+    </div><!-- .row -->
+</div><!-- .container -->

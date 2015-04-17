@@ -3,9 +3,9 @@
     margin:0;
 }
 body {
-    padding-top:150px;
+    padding-top:180px;
     padding-bottom: 20px;
-    max-width:800px;
+    max-width:1200px;
     margin:0px auto;
     font-family:Arial, Helvetica, sans-serif;
     color:#202020;
@@ -30,6 +30,10 @@ textarea {
     max-width: 280px;
 }
 
+/* ----- FONTS ----- */
+h5{
+    text-transform:uppercase;
+}
 /* ------ HEADER ------ */
 .navbar{
     height:70px;
@@ -37,7 +41,7 @@ textarea {
     background:#000;
 }
 .navbar .container{
-    max-width:800px;
+    max-width:1200px;
 }
 a.navbar-brand {
     margin-top:10px;
@@ -53,7 +57,7 @@ a.navbar-brand {
 }
 .secNav ul li a{
     color:#8eff96;
-    font-size:10px;
+    font-size:12px;
 }
 .secNav ul li{
     padding-top:10px;
@@ -79,7 +83,7 @@ a.navbar-brand {
 }
 .mainNav li a{
     color:#202020;
-    font-size:10px;
+    font-size:12px;
     text-transform:uppercase;
     font-weight:bolder;
     height:20px;
@@ -120,7 +124,7 @@ a.navbar-brand {
 }
 .navPage li a{
     padding:5px 10px;
-    font-size:10px;
+    font-size:12px;
     font-weight:300;
     color:#202020;
 }
@@ -141,6 +145,53 @@ a.navbar-brand {
     background:#eaeaea;
 }
 /* ==== SCHEDULE ==== */
+/* ---- INDEX ---- */
+td.scheduleName{
+    width:70%;
+}
+td.scheduleName:hover{
+    background:#eaeaea;
+}
+td.scheduleName a{
+    color:#202020;
+    font-size:16px;
+    display:block;
+    width:100%;
+    height:100%;
+}
+td.scheduleName:hover a{
+    text-decoration:none;
+}
+td.scheduleDay:active{
+    background:#d60000;
+}
+td ul{
+    list-style:none;
+    text-align:right;
+    margin:0px;
+}
+td ul li{
+    display:inline-block;
+    text-align:center;
+    padding:5px 10px;
+    margin:0px;
+}
+td ul li a{
+    padding:5px 10px;
+    font-size:12px;
+    font-weight:300;
+    color:#202020;
+    margin:0px
+}
+td ul li:hover{
+    padding:5px 10px;
+    background:#eaeaea;
+}
+td ul li:hover a{
+    color:#202020;
+    text-decoration:none;
+}
+/* --- .Details ---*/
 .scheduleDay{
     width:19.5%;
     border:solid 1px #eaeaea;
@@ -161,7 +212,7 @@ a.navbar-brand {
 }
 .dayHeader{
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
     padding-left:5px;
 }
 .dateHeader{
@@ -174,7 +225,7 @@ a.navbar-brand {
 }
 .DayTime{
     display:block;
-    font-size:8px;
+    font-size:10px;
     border-bottom:solid 1px #eaeaea;
     text-align:right;
 }
@@ -225,5 +276,15 @@ a.navbar-brand {
     margin-bottom:20px;
 }
 .currentBlock p{
-    font-size: 10px;
+    font-size: 12px;
+}
+
+/* --- Buttons --- */
+.btn-default{
+    border:none;
+    color:#fff;
+    background:#d60000;
+    text-transform:uppercase;
+    font-size:12px;
+    border-radius:0;
 }

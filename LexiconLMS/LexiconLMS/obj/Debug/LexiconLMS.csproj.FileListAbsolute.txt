@@ -49,7 +49,6 @@ C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\bin\Microsoft.Owin.S
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\obj\Debug\LexiconLMS.csprojResolveAssemblyReference.cache
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\obj\Debug\LexiconLMS.dll
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\obj\Debug\LexiconLMS.pdb
 C:\Users\User\Source\Repos\LexiconLMS\LexiconLMS\LexiconLMS\bin\Antlr3.Runtime.pdb

@@ -2,31 +2,43 @@
 
 @{
     ViewBag.Title = "Delete";
+    var link = ViewBag.sid;
 }
-
-<h2>THIS VIEW WILL NOT BE USED - A SCHEDULE CAN'T BE DELETED</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Schedule</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+<div class="pageNav navbar navbar-fixed-top">
+    <div class="container">
+        <ul class="nav navbar-nav navPage">
+            @*THE ADD EVENT BUTTON - ONLY VISIBLE FOR THE ADMIN ROLE*@
+            @if (!User.IsInRole("admin"))
+            {
+                <li>@Html.ActionLink("Cancel", "Index")</li>
+            }
+        </ul><!-- .nav .navbar-nav -->
+    </div>
 </div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-8">
+            <h3>Delete: <strong>@Html.DisplayFor(model => model.Name)</strong></h3>
+        <hr />
+            <div>
+                <p>
+                    You are about to delete the schedule: <strong>@Html.DisplayFor(model => model.Name)</strong>
+                </p>
+                <p>Are you sure you want to do this?</p>
+            </div>
+            @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-default" />
+                    </div>
+                }
+        </div><!-- .col-md-8 -->
+        <div class="col-md-4 sideBlock">
+            <p>Content</p>
+        </div>
+    </div><!-- .row -->
+</div><!-- . container -->

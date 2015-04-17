@@ -2,36 +2,52 @@
 
 @{
     ViewBag.Title = "Edit";
+    var link = ViewBag.sid;
 }
-
-<h2>THIS VIEW WILL NOT BE USED (?) (Maybe only in the event the user wants to change the name)</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Schedule</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+<div class="pageNav navbar navbar-fixed-top">
+    <div class="container">
+        <ul class="nav navbar-nav navPage">
+            @*THE ADD EVENT BUTTON - ONLY VISIBLE FOR THE ADMIN ROLE*@
+            @if (!User.IsInRole("admin"))
+            {
+                <li>@Html.ActionLink("Back to List", "Index")</li>
+            }
+        </ul><!-- .nav .navbar-nav -->
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-8">
+            <h3>Edit: @Html.DisplayFor(model => model.Name)</h3>
+        <hr />
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div><!-- .form-horizontal -->
+            }
+            </div><!-- .col-md-8 -->
+        <div class="col-md-4 sideBlock">
+            <p>"content"</p>
+        </div>
+    </div><!-- .row -->
+</div><!-- . container -->

@@ -8,13 +8,13 @@
     switch(Model.Time)
     {
         case 1:
-            dayTime = "Förmiddag";
+            dayTime = "Morning";
             break;
         case 2:
-            dayTime = "Eftermiddag";
+            dayTime = "Afternoon";
             break;
         case 3:
-            dayTime = "Heldag";
+            dayTime = "Whole Day";
             break;
         default:
             break;
@@ -24,9 +24,10 @@
     <div class="container">
         <ul class="nav navbar-nav navPage">
             @*THE ADD EVENT BUTTON - ONLY VISIBLE FOR THE ADMIN ROLE*@
-            @if (!User.IsInRole("admin"))
+            @if (User.IsInRole("admin"))
             {
                 <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</li>
+                <li>@Html.ActionLink("Delete", "Delete", new {id = Model.Id})</li>
             }
             <li>@Html.ActionLink("Back", "Details", "Schedules", new { id = Model.ScheduleId }, null )</li>
             
@@ -37,12 +38,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <h2>@Html.DisplayFor(model => model.Name)</h2>
+            <h3><strong>@Html.DisplayFor(model => model.Name)</strong></h3>
+        <hr />
             <p>@Html.DisplayFor(model => model.Summary)</p>
         </div><!-- .col-md-8 -->
         <div class="col-md-4 sideBlock">
         <h4>Date: @date</h4>
-        <h5>@Html.DisplayFor(model => model.Date.DayOfWeek), @dayTime</h5>
+        <p>@Html.DisplayFor(model => model.Date.DayOfWeek), @dayTime</p>
         </div><!-- .col-md-4 -->
     </div><!-- .row -->
 </div><!-- .container -->

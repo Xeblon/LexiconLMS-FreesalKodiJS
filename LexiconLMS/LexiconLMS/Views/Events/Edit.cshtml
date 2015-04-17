@@ -10,13 +10,13 @@
     switch (Model.Time)
     {
         case 1:
-            dayTime = "Förmiddag";
+            dayTime = "Morning";
             break;
         case 2:
-            dayTime = "Eftermiddag";
+            dayTime = "Afternoon";
             break;
         case 3:
-            dayTime = "Heldag";
+            dayTime = "Whole Day";
             break;
         default:
             break;
@@ -35,8 +35,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>Edit</h2>
-            <h3>@Html.DisplayFor(model => model.Name)</h3>
+            <h3>Edit: <strong>@Html.DisplayFor(model => model.Name)</strong></h3>
         </div><!-- .col-md-12 -->
     </div><!-- .row -->
 

@@ -170,13 +170,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ActiveLinkHelper.cs" />
-    <Compile Include="Migrations\201504010927339_InitialCreate.cs" />
-    <Compile Include="Migrations\201504010927339_InitialCreate.Designer.cs">
-      <DependentUpon>201504010927339_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201504070806520_initial.cs" />
-    <Compile Include="Migrations\201504070806520_initial.Designer.cs">
-      <DependentUpon>201504070806520_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201504170744222_initial.cs" />
+    <Compile Include="Migrations\201504170744222_initial.Designer.cs">
+      <DependentUpon>201504170744222_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -199,6 +195,7 @@
     <Content Include="bin\LexiconLMS.pdb" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\logo-lexicon%402x.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -275,10 +272,19 @@
     <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Groups\AddUser.cshtml" />
     <Content Include="Views\Account\RegisterToGroup.cshtml" />
+    <Content Include="Views\Events\Create.cshtml" />
+    <Content Include="Views\Events\Delete.cshtml" />
+    <Content Include="Views\Events\Details.cshtml" />
+    <Content Include="Views\Events\Edit.cshtml" />
+    <Content Include="Views\Events\Index.cshtml" />
+    <Content Include="Views\Schedules\Create.cshtml" />
+    <Content Include="Views\Schedules\Delete.cshtml" />
+    <Content Include="Views\Schedules\Details.cshtml" />
+    <Content Include="Views\Schedules\Edit.cshtml" />
+    <Content Include="Views\Schedules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -288,11 +294,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504010927339_InitialCreate.resx">
-      <DependentUpon>201504010927339_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504070806520_initial.resx">
-      <DependentUpon>201504070806520_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201504170744222_initial.resx">
+      <DependentUpon>201504170744222_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
